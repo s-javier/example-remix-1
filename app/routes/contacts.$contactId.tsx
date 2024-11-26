@@ -80,15 +80,18 @@ export default function Contact() {
 
 const Favorite: FunctionComponent<{ contact: Pick<ContactRecord, 'favorite'> }> = (props) => {
   const fetcher = useFetcher()
+  const favorite = fetcher.formData
+    ? fetcher.formData.get('favorite') === 'true'
+    : props.contact.favorite
 
   return (
     <fetcher.Form method="post">
       <button
-        aria-label={props.contact.favorite ? 'Remove from favorites' : 'Add to favorites'}
+        aria-label={favorite ? 'Remove from favorites' : 'Add to favorites'}
         name="favorite"
-        value={props.contact.favorite ? 'false' : 'true'}
+        value={favorite ? 'false' : 'true'}
       >
-        {props.contact.favorite ? '★' : '☆'}
+        {favorite ? '★' : '☆'}
       </button>
     </fetcher.Form>
   )
