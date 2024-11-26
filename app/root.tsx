@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import {
   Form,
   Links,
@@ -33,6 +34,11 @@ export const action = async () => {
 export default function App() {
   const navigation = useNavigation()
   const { contacts, q } = useLoaderData<typeof loader>()
+  const [query, setQuery] = useState(q || '')
+
+  useEffect(() => {
+    setQuery(q || '')
+  }, [q])
 
   return (
     <html lang="en">
@@ -50,10 +56,11 @@ export default function App() {
               <input
                 id="q"
                 aria-label="Search contacts"
-                defaultValue={q || ''}
                 placeholder="Search"
                 type="search"
                 name="q"
+                onChange={(event) => setQuery(event.currentTarget.value)}
+                value={query}
               />
               <div id="search-spinner" aria-hidden hidden={true} />
             </Form>
